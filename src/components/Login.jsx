@@ -1,4 +1,5 @@
 import React from "react";
+import "./../styles/Login.css";
 import { Container } from 'react-bootstrap'; // Import Container from react-bootstrap
 
 export default function Login() {
@@ -14,22 +15,18 @@ export default function Login() {
     "user-read-playback-position",
     "user-top-read",
     "user-read-recently-played"]
-    window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join( " ")}&response_type=tolen&show_daialog=true`
+    window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join( " ")}&response_type=token&show_daialog=true`
   }
   return (
-    <Container className="d-flex flex-column vh-100 vw-100">
+    <Container className="d-flex flex-column vh-100">
       <img
+      className="spotify-logo"
         src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_Green.png"
         alt="spotify-logo"
-        style={{height: '20vh'}}
       />
-      <button className="my-5 mx-5 py-2 border-0 rounded-pill"
+      <button className="my-5 mx-5 py-2 border-0 rounded-pill connect-button"
       onClick={handleClick}
-      style={{backgroundColor : 'black',
-      color:'#49f585',
-      fontSize: '1.4rem',
-      cursor: 'pointer',
-      }}>Connect Spotify</button>
+      >Connect Spotify</button>
     </Container>
   );
 }

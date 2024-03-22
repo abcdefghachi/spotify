@@ -1,0 +1,11 @@
+.spotify-logo{
+    height: 20vh;
+    width: 30vw;
+}
+.connect-button {
+    background-color: black;
+    color: #49f585;
+    font-size: 1.4rem;
+    cursor: pointer;
+    width: 30vw;
+}
