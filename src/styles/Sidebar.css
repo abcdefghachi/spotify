@@ -1,0 +1,7 @@
+.links li{
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+.links li:hover{
+    color: white;
+}
