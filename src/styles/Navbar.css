@@ -1,0 +1,18 @@
+.navbar-wrapper {
+  padding: 2rem;
+  height: 15vh;
+  position: sticky;
+  top: 0;
+  transition: 0.3s ease-in-out;
+}
+.navbar-wrapper .search-bar {
+  width: 40%;
+  padding: 0.4rem 1rem;
+}
+.navbar-wrapper .search-bar > input {
+  border: none;
+  height: 2rem;
+  outline: none;
+  margin-left: 10px;
+  max-width: 200px;
+}

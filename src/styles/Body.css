@@ -1,0 +1,34 @@
+.playlist .image > .img {
+  height: 15rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+}
+.list .header-row {
+  /* display: grid;
+  grid-template-columns: 0.3fr 3fr 2fr 0.1fr; */
+  color: #dddcdc;
+  margin: 1rem 0 0 0;
+  position: sticky;
+  top: 15vh;
+  padding: 1rem 3rem;
+  transition: 0.3s ease-in-out;
+}
+.list > .tracks {
+  margin: 0 2rem;
+  margin-bottom: 5rem;
+}
+.list > .tracks > .row {
+  padding: 0.5rem 1rem;
+  /* display: grid;
+  grid-template-columns: 0.3fr 3fr 2fr 0.1r; */
+}
+.list > .tracks > .row:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.list > .tracks > .row > .col-content {
+  color: #dddcdc;
+  display: flex;
+  align-items: center;
+}
+.list > .tracks > .row > .col-content img {
+  height: 40px;
+}
