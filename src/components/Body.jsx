@@ -41,7 +41,7 @@ export default function Body({ headerBackground }) {
             track_number: track.track_number,
           })),
         };
-        // console.log(selectedPlaylist.tracks);
+
         dispatch({ type: reducerCases.SET_PLAYLIST, selectedPlaylist });
       } catch (error) {
         console.error("Error fetching playlist:", error);
@@ -56,30 +56,68 @@ export default function Body({ headerBackground }) {
   const msToMinutesAndSeconds = (ms) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = ((ms % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? "0" : " ") + seconds;
+    return minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+  };
+
+  const playTrack = async (
+    id,
+    name,
+    artists,
+    image,
+    context_uri,
+    track_number
+  ) => {
+    try {
+      const response = await axios.put(
+        `https://api.spotify.com/v1/me/player/play`,
+        {
+          context_uri,
+          offset: {
+            position: track_number - 1,
+          },
+          position_ms: 0,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      if (response.status === 204) {
+        const currentlyPlaying = {
+          id,
+          name,
+          artists,
+          image,
+        };
+
+        dispatch({ type: reducerCases.SET_PLAYING, currentlyPlaying });
+        dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+      } else {
+        dispatch({ type: reducerCases.SET_PLAYER_STATE, playerState: true });
+      }
+    } catch (error) {
+      console.error("Error playing track:", error);
+    }
   };
 
   return (
     <div headerBackground={headerBackground}>
       {selectedPlaylist && (
         <>
-          <div
-            className="playlist my-1 mx-2 d-flex align-items-center gap-4"
-            style={{
-              overflow: "auto",
-              scrollbarWidth: "none" /* Firefox */,
-              "-ms-overflow-style": "none" /* Internet Explorer 11 */,
-              "&::-webkit-scrollbar": {
-                display: "none" /* Chrome, Safari, Opera */,
-              },
-            }}
-          >
+          <div className="playlist my-1 mx-2 d-flex align-items-center gap-4">
             <div className="image">
-              <img src={selectedPlaylist.image} alt="" />
+              <img
+                src={selectedPlaylist.image}
+                alt=""
+                style={{ width: "250px" }}
+              />
             </div>
 
             <div
-              className="details text-light d-flex flex-column justify-content-between gap-4"
+              className="details text-light d-flex flex-column gap-4"
               style={{ color: "#e0dede" }}
             >
               <span className="type">PLAYLIST</span>
@@ -94,9 +132,7 @@ export default function Body({ headerBackground }) {
             <div
               className="header-row row"
               headerBackground={headerBackground}
-              style={{
-                background: headerBackground ? "#000000dc" : "none",
-              }}
+              style={{ background: headerBackground ? "#000000dc" : "none" }}
             >
               <div className="col-1">
                 <span>#</span>
@@ -126,34 +162,41 @@ export default function Body({ headerBackground }) {
                     track_number,
                   },
                   index
-                ) => {
-                  return (
-                    <div className="row" key={id}>
-                      <div className="col-1 col-content">
-                        <span>{index + 1}</span>
+                ) => (
+                  <div
+                    className="row"
+                    key={id}
+                    onClick={() =>
+                      playTrack(
+                        id,
+                        name,
+                        artists,
+                        image,
+                        context_uri,
+                        track_number
+                      )
+                    }
+                  >
+                    <div className="col-1 col-content">
+                      <span>{index + 1}</span>
+                    </div>
+                    <div className="col-6 col-content details d-flex gap-1">
+                      <div className="image">
+                        <img src={image} alt="track-img" />
                       </div>
-
-                      <div className="col-6 col-content details d-flex gap-1">
-                        <div className="image">
-                          <img src={image} alt="track-img" />
-                        </div>
-
-                        <div className="info d-flex flex-column">
-                          <span className="name">{name}</span>
-                          <span className="artists">{artists}</span>
-                        </div>
-                      </div>
-
-                      <div className="col-4 col-content">
-                        <span>{album}</span>
-                      </div>
-
-                      <div className="col-1 col-content">
-                        <span>{msToMinutesAndSeconds(duration)}</span>
+                      <div className="info d-flex flex-column">
+                        <span className="name">{name}</span>
+                        <span className="artists">{artists}</span>
                       </div>
                     </div>
-                  );
-                }
+                    <div className="col-4 col-content">
+                      <span>{album}</span>
+                    </div>
+                    <div className="col-1 col-content">
+                      <span>{msToMinutesAndSeconds(duration)}</span>
+                    </div>
+                  </div>
+                )
               )}
             </div>
           </div>

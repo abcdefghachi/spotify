@@ -12,6 +12,7 @@ export default function Spotify() {
   const bodyRef = useRef();
   const [navBackground, setNavBackground] = useState(false);
   const [headerBackground, setHeaderBackground] = useState(false);
+
   const bodyScrolled = () => {
     bodyRef.current.scrollTop >= 30
       ? setNavBackground(true)
@@ -20,6 +21,7 @@ export default function Spotify() {
       ? setHeaderBackground(true)
       : setHeaderBackground(false);
   };
+
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -68,16 +70,17 @@ export default function Spotify() {
           className="body h-100 w-100"
           style={{
             overflow: "auto",
-            scrollbarWidth: "none" /* Firefox */,
-            "-ms-overflow-style": "none" /* Internet Explorer 11 */,
+            scrollbarWidth: "none", // Firefox
+            "-ms-overflow-style": "none", // Internet Explorer 11
             "&::-webkit-scrollbar": {
-              display: "none" /* Chrome, Safari, Opera */,
+              display: "none", // Chrome, Safari, Opera
             },
           }}
           ref={bodyRef}
           onScroll={bodyScrolled}
         >
-          <NavBar navBackground={navBackground} />
+          <NavBar navBackground={navBackground} />{" "}
+          {/* Pass the navBackground prop */}
           <div className="contents">
             <Body headerBackground={headerBackground} />
           </div>
